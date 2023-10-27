@@ -1,6 +1,7 @@
+{% set min_python = ">=3.6" %}
 {% set name = "qrcode-artistic" %}
-{% set version = "2.1.0" %}
-{% set build_number = "0" %}
+{% set version = "3.0.0" %}
+{% set build_number = 0 %}
 {% set min_python = ">=3.6" %}
 
 package:
@@ -10,10 +11,10 @@ package:
 source:
   - folder: dist
     url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/qrcode-artistic-{{ version }}.tar.gz
-    sha256: 29d43db365e32e5fab08afc7810e7890ece1a4d145b8a08364e1d9b4eaccf6ff
+    sha256: f429f11ace9e8bdcddd7aff31075f633904e91096a87a384c415f84b313622d3
   - folder: src
     url: https://github.com/heuer/qrcode-artistic/archive/refs/tags/{{ version }}.tar.gz
-    sha256: b83265d06a2b820fa8a7a9d8fa3ef94f727fecabd6df06af5797f052fd4eb2ab
+    sha256: 60dad1040d6c081f70f9d910be5804a1e6ed71310611886b98f4eb3d72ae85ab
 
 build:
   number: {{ build_number }}
