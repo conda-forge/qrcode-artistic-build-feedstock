@@ -1,50 +1,45 @@
-{% set min_python = ">=3.6" %}
-{% set name = "qrcode-artistic" %}
 {% set version = "3.0.0" %}
-{% set build_number = 0 %}
-{% set min_python = ">=3.6" %}
+{% set min_python = "python >=3.7" %}
 
 package:
-  name: {{ name }}-build
+  name: qrcode-artistic-build
   version: {{ version }}
 
 source:
   - folder: dist
-    url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/qrcode-artistic-{{ version }}.tar.gz
+    url: https://pypi.io/packages/source/q/qrcode-artistic/qrcode-artistic-{{ version }}.tar.gz
     sha256: f429f11ace9e8bdcddd7aff31075f633904e91096a87a384c415f84b313622d3
   - folder: src
     url: https://github.com/heuer/qrcode-artistic/archive/refs/tags/{{ version }}.tar.gz
     sha256: 60dad1040d6c081f70f9d910be5804a1e6ed71310611886b98f4eb3d72ae85ab
 
 build:
-  number: {{ build_number }}
+  number: 0
   noarch: python
 
 requirements:
   host:
-    - pip
-    - python {{ min_python }}
+    - {{ min_python }}
   run:
-    - python {{ min_python }}
+    - {{ min_python }}
 
 test:
   commands:
     - echo "tests in subpackages"
 
 outputs:
-  - name: {{ name }}-base
+  - name: qrcode-artistic-base
     version: {{ version }}
     build:
-      build_number: {{ build_number }}
       noarch: python
-      script: cd dist && {{ PYTHON }} -m pip install . -vv
+      script: cd dist && {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
     requirements:
       host:
+        - {{ min_python }}
         - pip
-        - python {{ min_python }}
       run:
+        - {{ min_python }}
         - pillow
-        - python {{ min_python }}
         - segno >=1.0.2,<2
     test:
       requires:
@@ -54,19 +49,17 @@ outputs:
       commands:
         - pip check
 
-  - name: {{ name }}-svg
+  - name: qrcode-artistic-svg
     version: {{ version }}
     build:
-      build_number: {{ build_number }}
       noarch: python
     requirements:
       host:
-        - pip
-        - python {{ min_python }}
+        - {{ min_python }}
       run:
-        - python {{ min_python }}
-        - {{ name }}-base =={{ version }}.*
-        - cairosvg >=2.4,<3
+        - {{ min_python }}
+        - {{ pin_subpackage("qrcode-artistic-base", exact=True) }}
+        - cairosvg
     test:
       requires:
         - pip
@@ -75,19 +68,17 @@ outputs:
       commands:
         - pip check
 
-  - name: {{ name }}
+  - name: qrcode-artistic
     version: {{ version }}
     build:
-      build_number: {{ build_number }}
       noarch: python
     requirements:
       host:
-        - pip
-        - python {{ min_python }}
+        - {{ min_python }}
       run:
-        - python {{ min_python }}
-        - {{ name }}-base =={{ version }}.*
-        - {{ name }}-svg =={{ version }}.*
+        - {{ min_python }}
+        - {{ pin_subpackage("qrcode-artistic-base", exact=True) }}
+        - {{ pin_subpackage("qrcode-artistic-svg", exact=True) }}
     test:
       source_files:
         - src/tests
@@ -96,15 +87,13 @@ outputs:
         - pip
         - pytest >=6,<7
         - pytest-cov
-        - pyzbar >=0.1.8,<0.2  # [unix]
-        # TODO: fix upstream https://github.com/conda-forge/pyzbar-feedstock/issues/1
-        - zbar  # [unix]
+        - pyzbar >=0.1.9,<0.2  # [unix]
       imports:
         - qrcode_artistic
       commands:
         - pip check
         - cd src
-        - pytest -vv --cov=qrcode_artistic --cov-report=term-missing:skip-covered --cov-fail-under=100 --no-cov-on-fail  # [unix]
+        - pytest -vv --tb=long --color=yes --cov=qrcode_artistic --cov-branch --cov-report=term-missing:skip-covered --no-cov-on-fail --cov-fail-under=95  # [unix]
 
 about:
   home: https://github.com/heuer/qrcode-artistic
@@ -113,5 +102,6 @@ about:
   license_file: dist/LICENSE
 
 extra:
+  feedstock-name: qrcode-artistic
   recipe-maintainers:
     - bollwyvl
