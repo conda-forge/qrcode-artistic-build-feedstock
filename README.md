@@ -1,11 +1,11 @@
-About qrcode-artistic-build
-===========================
+About qrcode-artistic-feedstock
+===============================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/qrcode-artistic-build-feedstock/blob/main/LICENSE.txt)
 
 Home: https://github.com/heuer/qrcode-artistic
 
 Package license: BSD-3-Clause
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/qrcode-artistic-build-feedstock/blob/master/LICENSE.txt)
 
 Summary: Artistic (Micro) QR Code plugin for Segno
 
@@ -15,8 +15,8 @@ Current build status
 
 <table><tr><td>All platforms:</td>
     <td>
-      <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12420&branchName=master">
-        <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/qrcode-artistic-build-feedstock?branchName=master">
+      <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12420&branchName=main">
+        <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/qrcode-artistic-build-feedstock?branchName=main">
       </a>
     </td>
   </tr>
@@ -31,33 +31,59 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-qrcode--artistic--base-green.svg)](https://anaconda.org/conda-forge/qrcode-artistic-base) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/qrcode-artistic-base.svg)](https://anaconda.org/conda-forge/qrcode-artistic-base) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/qrcode-artistic-base.svg)](https://anaconda.org/conda-forge/qrcode-artistic-base) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/qrcode-artistic-base.svg)](https://anaconda.org/conda-forge/qrcode-artistic-base) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-qrcode--artistic--svg-green.svg)](https://anaconda.org/conda-forge/qrcode-artistic-svg) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/qrcode-artistic-svg.svg)](https://anaconda.org/conda-forge/qrcode-artistic-svg) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/qrcode-artistic-svg.svg)](https://anaconda.org/conda-forge/qrcode-artistic-svg) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/qrcode-artistic-svg.svg)](https://anaconda.org/conda-forge/qrcode-artistic-svg) |
 
-Installing qrcode-artistic-build
-================================
+Installing qrcode-artistic
+==========================
 
-Installing `qrcode-artistic-build` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `qrcode-artistic` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `qrcode-artistic, qrcode-artistic-base, qrcode-artistic-svg` can be installed with:
+Once the `conda-forge` channel has been enabled, `qrcode-artistic, qrcode-artistic-base, qrcode-artistic-svg` can be installed with `conda`:
 
 ```
 conda install qrcode-artistic qrcode-artistic-base qrcode-artistic-svg
 ```
 
-It is possible to list all of the versions of `qrcode-artistic` available on your platform with:
+or with `mamba`:
+
+```
+mamba install qrcode-artistic qrcode-artistic-base qrcode-artistic-svg
+```
+
+It is possible to list all of the versions of `qrcode-artistic` available on your platform with `conda`:
 
 ```
 conda search qrcode-artistic --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search qrcode-artistic --channel conda-forge
+```
+
+Alternatively, `mamba repoquery` may provide more information:
+
+```
+# Search all versions available on your platform:
+mamba repoquery search qrcode-artistic --channel conda-forge
+
+# List packages depending on `qrcode-artistic`:
+mamba repoquery whoneeds qrcode-artistic --channel conda-forge
+
+# List dependencies of `qrcode-artistic`:
+mamba repoquery depends qrcode-artistic --channel conda-forge
 ```
 
 
 About conda-forge
 =================
 
-[![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](http://numfocus.org)
+[![Powered by
+NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org)
 
 conda-forge is a community-led conda channel of installable packages.
 In order to provide high-quality builds, the process has been automated into the
@@ -67,10 +93,12 @@ for each of the installable packages. Such a repository is known as a *feedstock
 A feedstock is made up of a conda recipe (the instructions on what and how to build
 the package) and the necessary configurations for automatic building using freely
 available continuous integration services. Thanks to the awesome service provided by
-[CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/)
-and [TravisCI](https://travis-ci.com/) it is possible to build and upload installable
-packages to the [conda-forge](https://anaconda.org/conda-forge)
-[Anaconda-Cloud](https://anaconda.org/) channel for Linux, Windows and OSX respectively.
+[Azure](https://azure.microsoft.com/en-us/services/devops/), [GitHub](https://github.com/),
+[CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/),
+[Drone](https://cloud.drone.io/welcome), and [TravisCI](https://travis-ci.com/)
+it is possible to build and upload installable packages to the
+[conda-forge](https://anaconda.org/conda-forge) [Anaconda-Cloud](https://anaconda.org/)
+channel for Linux, Windows and OSX respectively.
 
 To manage the continuous integration and simplify feedstock maintenance
 [conda-smithy](https://github.com/conda-forge/conda-smithy) has been developed.
@@ -92,17 +120,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating qrcode-artistic-build-feedstock
-========================================
+Updating qrcode-artistic-feedstock
+==================================
 
-If you would like to improve the qrcode-artistic-build recipe or build a new
+If you would like to improve the qrcode-artistic recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/qrcode-artistic-build-feedstock are
+Note that all branches in the conda-forge/qrcode-artistic-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.
