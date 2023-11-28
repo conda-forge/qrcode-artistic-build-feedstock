@@ -1,4 +1,5 @@
-{% set version = "3.0.0" %}
+{% set min_python = "python >=3.7" %}
+{% set version = "3.0.2" %}
 {% set min_python = "python >=3.7" %}
 
 package:
@@ -8,10 +9,10 @@ package:
 source:
   - folder: dist
     url: https://pypi.io/packages/source/q/qrcode-artistic/qrcode-artistic-{{ version }}.tar.gz
-    sha256: f429f11ace9e8bdcddd7aff31075f633904e91096a87a384c415f84b313622d3
+    sha256: eb71f12673c89f638cf7252554a74ecbe4a22f1ce15920caa53da75a48c181f4
   - folder: src
     url: https://github.com/heuer/qrcode-artistic/archive/refs/tags/{{ version }}.tar.gz
-    sha256: 60dad1040d6c081f70f9d910be5804a1e6ed71310611886b98f4eb3d72ae85ab
+    sha256: 11f2e9b5555bafef8e47be66200533d63ea897d5d9f892b2e4971cc313971d25
 
 build:
   number: 0
