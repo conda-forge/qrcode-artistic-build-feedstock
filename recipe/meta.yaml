@@ -7,14 +7,14 @@ package:
 
 source:
   - folder: dist
-    url: https://pypi.io/packages/source/q/qrcode-artistic/qrcode-artistic-{{ version }}.tar.gz
+    url: https://pypi.org/packages/source/q/qrcode-artistic/qrcode-artistic-{{ version }}.tar.gz
     sha256: eb71f12673c89f638cf7252554a74ecbe4a22f1ce15920caa53da75a48c181f4
   - folder: src
     url: https://github.com/heuer/qrcode-artistic/archive/refs/tags/{{ version }}.tar.gz
     sha256: 11f2e9b5555bafef8e47be66200533d63ea897d5d9f892b2e4971cc313971d25
 
 build:
-  number: 0
+  number: 1
   noarch: python
 
 requirements:
@@ -24,6 +24,8 @@ requirements:
     - {{ min_python }}
 
 test:
+  requires:
+    - python {{ python_min }}
   commands:
     - echo "tests in subpackages"
 
@@ -44,6 +46,7 @@ outputs:
     test:
       requires:
         - pip
+        - python {{ python_min }}
       imports:
         - qrcode_artistic
       commands:
@@ -63,6 +66,7 @@ outputs:
     test:
       requires:
         - pip
+        - python {{ python_min }}
       imports:
         - qrcode_artistic
       commands:
@@ -88,6 +92,7 @@ outputs:
         - pytest >=6,<7
         - pytest-cov
         - pyzbar >=0.1.9,<0.2  # [unix]
+        - python {{ python_min }}
       imports:
         - qrcode_artistic
       commands:
