@@ -1,5 +1,6 @@
 {% set version = "3.0.2" %}
-{% set min_python = "python >=3.7" %}
+
+{% set PYTHON = PYTHON | default("$PYTHON") %}
 
 package:
   name: qrcode-artistic-build
@@ -7,76 +8,74 @@ package:
 
 source:
   - folder: dist
-    url: https://pypi.io/packages/source/q/qrcode-artistic/qrcode-artistic-{{ version }}.tar.gz
+    url: https://pypi.org/packages/source/q/qrcode-artistic/qrcode-artistic-{{ version }}.tar.gz
     sha256: eb71f12673c89f638cf7252554a74ecbe4a22f1ce15920caa53da75a48c181f4
   - folder: src
     url: https://github.com/heuer/qrcode-artistic/archive/refs/tags/{{ version }}.tar.gz
     sha256: 11f2e9b5555bafef8e47be66200533d63ea897d5d9f892b2e4971cc313971d25
 
 build:
-  number: 0
+  number: 1
   noarch: python
 
 requirements:
   host:
-    - {{ min_python }}
+    - python {{ python_min }}
   run:
-    - {{ min_python }}
+    - python >={{ python_min }}
 
 test:
+  requires:
+    - python {{ python_min }}
   commands:
     - echo "tests in subpackages"
 
 outputs:
   - name: qrcode-artistic-base
-    version: {{ version }}
     build:
       noarch: python
-      script: cd dist && {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+      script:
+        - cd dist 
+        - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
     requirements:
       host:
-        - {{ min_python }}
         - pip
+        - python {{ python_min }}
+        - setuptools
       run:
-        - {{ min_python }}
+        - python >={{ python_min }}
         - pillow
         - segno >=1.0.2,<2
     test:
       requires:
         - pip
+        - python {{ python_min }}
       imports:
         - qrcode_artistic
       commands:
         - pip check
 
   - name: qrcode-artistic-svg
-    version: {{ version }}
     build:
-      noarch: python
+      noarch: generic
     requirements:
-      host:
-        - {{ min_python }}
       run:
-        - {{ min_python }}
         - {{ pin_subpackage("qrcode-artistic-base", exact=True) }}
         - cairosvg
     test:
       requires:
         - pip
+        - python {{ python_min }}
       imports:
         - qrcode_artistic
       commands:
         - pip check
 
   - name: qrcode-artistic
-    version: {{ version }}
     build:
-      noarch: python
+      noarch: generic
     requirements:
-      host:
-        - {{ min_python }}
       run:
-        - {{ min_python }}
         - {{ pin_subpackage("qrcode-artistic-base", exact=True) }}
         - {{ pin_subpackage("qrcode-artistic-svg", exact=True) }}
     test:
@@ -87,6 +86,7 @@ outputs:
         - pip
         - pytest >=6,<7
         - pytest-cov
+        - python {{ python_min }}
         - pyzbar >=0.1.9,<0.2  # [unix]
       imports:
         - qrcode_artistic
