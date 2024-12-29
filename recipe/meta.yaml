@@ -1,5 +1,6 @@
 {% set version = "3.0.2" %}
-{% set min_python = "python >=3.7" %}
+
+{% set PYTHON = PYTHON | default("$PYTHON") %}
 
 package:
   name: qrcode-artistic-build
@@ -19,9 +20,9 @@ build:
 
 requirements:
   host:
-    - {{ min_python }}
+    - python {{ python_min }}
   run:
-    - {{ min_python }}
+    - python >={{ python_min }}
 
 test:
   requires:
@@ -31,16 +32,18 @@ test:
 
 outputs:
   - name: qrcode-artistic-base
-    version: {{ version }}
     build:
       noarch: python
-      script: cd dist && {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+      script:
+        - cd dist 
+        - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
     requirements:
       host:
-        - {{ min_python }}
         - pip
+        - python {{ python_min }}
+        - setuptools
       run:
-        - {{ min_python }}
+        - python >={{ python_min }}
         - pillow
         - segno >=1.0.2,<2
     test:
@@ -53,14 +56,10 @@ outputs:
         - pip check
 
   - name: qrcode-artistic-svg
-    version: {{ version }}
     build:
-      noarch: python
+      noarch: generic
     requirements:
-      host:
-        - {{ min_python }}
       run:
-        - {{ min_python }}
         - {{ pin_subpackage("qrcode-artistic-base", exact=True) }}
         - cairosvg
     test:
@@ -73,14 +72,10 @@ outputs:
         - pip check
 
   - name: qrcode-artistic
-    version: {{ version }}
     build:
-      noarch: python
+      noarch: generic
     requirements:
-      host:
-        - {{ min_python }}
       run:
-        - {{ min_python }}
         - {{ pin_subpackage("qrcode-artistic-base", exact=True) }}
         - {{ pin_subpackage("qrcode-artistic-svg", exact=True) }}
     test:
@@ -91,8 +86,8 @@ outputs:
         - pip
         - pytest >=6,<7
         - pytest-cov
-        - pyzbar >=0.1.9,<0.2  # [unix]
         - python {{ python_min }}
+        - pyzbar >=0.1.9,<0.2  # [unix]
       imports:
         - qrcode_artistic
       commands:
